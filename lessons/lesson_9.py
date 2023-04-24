@@ -20,16 +20,16 @@ class Dog:
             return name
 
     def __init__(self, name, age):
-        self.__dog_name = self.__check_name(name)
-        self.__age = self.__check_age(age)
+        self.name = name
+        self.age = age
 
     @property
     def name(self):
-        return self.__dog_name
+        return self.__name
 
     @name.setter
     def name(self, name):
-        self.__dog_name = self.__check_name(name)
+        self.__name = self.__check_name(name)
 
     @property
     def age(self):
