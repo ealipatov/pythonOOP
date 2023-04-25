@@ -7,12 +7,16 @@ txt = "Значимость этих проблем настолько очев�
 
 def clear_symbol_in_text(symbol):
     def decorator(func):
+        symbols = []
+
         def inner(*args, **kwargs):
-            print(f"\nТекст без символа: `{symbol}`:")
             valid_args = []
             for arg in args:
                 valid_args.append(str(arg).replace(symbol, ""))
+                symbols.append(symbol)
             res = func(*valid_args, **kwargs)
+            # print(symbols)
+            print(f"Из текста убран символ: `{symbol}`")
             return res
 
         return inner
@@ -21,15 +25,10 @@ def clear_symbol_in_text(symbol):
 
 
 @clear_symbol_in_text(",")
-def print_text_without_commas(text):
-    print(text)
-
-
 @clear_symbol_in_text(" ")
-def print_text_without_spaces(text):
+def print_text_without_symbols(text):
     print(text)
 
 
 print(txt)
-print_text_without_commas(txt)
-print_text_without_spaces(txt)
+print_text_without_symbols(txt)
