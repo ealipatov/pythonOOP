@@ -1,19 +1,21 @@
-def validate_age(func):
-    def inner(*args, **kwargs):
-        valid_args = []
-        for arg in args:
-            if type(arg) == int and 0 <= arg <= 120:
-                valid_args.append(arg)
-            else:
-                valid_args.append(None)
-        res = func(*valid_args, **kwargs)
+def validate_age(min_age, max_age):  # Обертка для декоратораБ которая принимает значения и возвращает декоратор
+    def decorator(func):  # Непосредственно сам декоратор
+        def inner(*args, **kwargs):
+            valid_args = []
+            for arg in args:
+                if type(arg) == int and min_age <= arg <= max_age:
+                    valid_args.append(arg)
+                else:
+                    valid_args.append(None)
+            res = func(*valid_args, **kwargs)
 
-        return res
+            return res
 
-    return inner
+        return inner
+    return decorator
 
 
-@validate_age
+@validate_age(min_age=1, max_age=120)
 def print_age(age, age2):
     print(f"Введенный возраст: {age}, {age2}")
 
