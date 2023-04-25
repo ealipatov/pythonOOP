@@ -1,24 +1,24 @@
 def hands_washer(func):  # На вход принимаем функцию
-    def inner(arg):
+    def inner(*args, **kwargs):
         print("Моем руки")
-        func(arg)
+        func(*args, **kwargs)
         print("Моем руки")
 
     return inner
 
 
-def eat(arg):
-    print(f"Кушаю {arg}")
+def eat(meal1, meal2):
+    print(f"Кушаю: {meal1} и {meal2}")
 
 
-def eat_2(func, arg):
+def eat_2(func, *args):
     print("Моем руки")
-    func(arg)
+    func(*args)
     print("Моем руки")
 
 
-hands_washer(eat)("Мясо")  # Сокращенное написание:
+hands_washer(eat)("Мясо", "Сыр")  # Сокращенное написание:
 # clear_eat = hands_washer(eat)
 # clear_eat()
 
-eat_2(eat, "Сало")
+eat_2(eat, "Сало", "Хлеб")
