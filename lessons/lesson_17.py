@@ -1,12 +1,13 @@
-class Dog:
+class Counter:
     def __init__(self):
-        print("Гав")
+        self.count = 0
 
     def __call__(self, *args, **kwargs):
-        print("вызов объекта как функции")
-        print(args)
+        self.count += 1
+        return self.count
 
 
-dog = Dog()
-dog()
-dog("собака сказала гав")
+count = Counter()
+print(count())
+print(count())
+print(count())
