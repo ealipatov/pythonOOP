@@ -1,4 +1,5 @@
 import time
+import requests
 
 
 def time_counting(func):  # На вход принимаем функцию
@@ -18,4 +19,20 @@ def fu():
     print("213213123")
 
 
+# На рекурсивных функциях декораторы вызываются много раз (сколько происходит рекурсия)
+def fibonachi(num):  # Рекурсивная функция расчета числа Фибоначи
+    if num in range[1, 2]:
+        return num
+    return fibonachi(num - 1) + fibonachi(num - 2)
+
+
+@time_counting
+def f3():
+    res = requests.get("https://www.google.by/")
+    res1 = requests.get("https://www.google.by/")
+    res2 = requests.get("https://www.google.by/")
+    print()
+
+
 fu()
+f3()
