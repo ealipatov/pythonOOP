@@ -1,13 +1,24 @@
-class Counter:
-    def __init__(self):
-        self.count = 0
+import time
+
+
+class Timer:
+
+    def __init__(self, func):
+        self.func = func
 
     def __call__(self, *args, **kwargs):
-        self.count += 1
-        return self.count
+        start_time = time.time()
+        res = self.func(*args, **kwargs)
+        end_time = time.time()
+        print(f"Время выполнения: {end_time - start_time}")
+        return res
 
 
-count = Counter()
-print(count())
-print(count())
-print(count())
+@Timer
+def func():
+    print("1")
+    time.sleep(0.5)
+    print("2")
+
+
+func()
