@@ -16,6 +16,12 @@ class Product:
                     return False
         return res
 
+    def __gt__(self, other):
+        return self.get_sum_all_prise() > other.get_sum_all_prise()
+
+    def __ge__(self, other):
+        return self.get_sum_all_prise() >= other.get_sum_all_prise()
+
 
 def print_product(product):
     print(f"Сумма: {product.get_sum_all_prise()}, Бонусов: {product.bonus}, "
@@ -27,3 +33,4 @@ product2 = Product({'Кефир': 4, 'Масло': 4})
 product3 = Product({'Кефир': 3, 'Масло': 4})
 
 print(product3 == product2)
+print(product3 >= product2)
