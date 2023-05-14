@@ -14,7 +14,7 @@ class TestProgramRunner:
 
         user = Utils.user_authentication(students)
 
-        self.test_service.show_menu(menu, user)
+        self.test_service.show_menu(students, menu, user)
 
 
 runner = TestProgramRunner()

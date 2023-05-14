@@ -3,6 +3,9 @@ import os
 import json
 import pandas as pandas
 from abc import ABC, abstractmethod
+
+import xlsxwriter as xlsxwriter
+
 from entities import Student
 
 
@@ -12,7 +15,7 @@ class StudentRepo(ABC):
         pass
 
     @abstractmethod
-    def save_data(self):
+    def save_data(self, students):
         pass
 
     @abstractmethod
@@ -68,8 +71,22 @@ class StudentRepoXlsx(StudentRepo):
                 )
         return self.load_init_students(students)
 
-    def save_data(self):
-        pass
+    def save_data(self, students):
+        workbook = xlsxwriter.Workbook(self.DATA_FILE)
+        bold = workbook.add_format({"bold": True})
+
+        for user, data in students.items():
+            counter = 2
+            worksheet = workbook.add_worksheet(user)
+            worksheet.write("A1", "Дата", bold)
+            worksheet.write("B1", "Оценка", bold)
+
+            for mark in data.marks:
+                worksheet.write(f"A{counter}", str(mark[0])[:16])
+                worksheet.write(f"B{counter}", mark[1])
+                counter += 1
+
+        workbook.close()
 
     def load_menu(self):
         return self.get_config()["menu"]

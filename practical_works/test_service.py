@@ -6,8 +6,8 @@ class TestService:
     def __init__(self, repo):
         self.repo = repo
 
-    ADMIN_ACCESS = "admin_access"
-    STUDENT_ACCESS = "student_access"
+    ADMIN_ACCESS = "ADMIN_ACCESS"
+    STUDENT_ACCESS = "STUDENT_ACCESS"
 
     @staticmethod
     def start_test(student):
@@ -26,12 +26,39 @@ class TestService:
                 print(" Ошибка. Введенный ответ не целое число")
         mark = right_answer * 2
         student.marks.append(datetime.datetime.now(), mark)
-        # users_mark[login] = users_mark.get(login, []) + [(date_now, mark)]
+        # student.marks.append(mark)
 
         print(f"Правильных ответов: {right_answer}, оценка: {mark}")
 
     @staticmethod
-    def show_menu(menu, user):
+    def show_average_info(students):
+        counter = 1
+        marks_sum = 0
+        marks_count = 0
+        print("\nСредний бал по пользователям: ")
+        print("=" * 80)
+        for login, data in students.items():
+            int_marks = list(map(lambda el: el[1], data.marks))
+            print(f"{counter}. {login}: {sum(int_marks) / len(int_marks) if len(int_marks) !=0 else 'Нет оценок'}")
+            counter += 1
+            for mark in data.marks:
+                marks_sum += mark[1]
+                marks_count += 1
+        print("=" * 80)
+        print(f"Средний бал по всем пользователям: {round(marks_sum / marks_count, 2)}")
+        print("=" * 80)
+
+    @staticmethod
+    def show_users_info(students):
+        user_name = input("Введите имя ученика: ").lower()
+        if user_name in students.keys():
+            marks = students[user_name]
+            for mark in marks:
+                print(f"Отметка: {mark[1]} получена -> {mark[0]}")
+        else:
+            print(f"Пользователя с именем {user_name} нет в списке")
+
+    def show_menu(self, students, menu, user):
         while True:
             user_access = user.access_level
             current_menu = menu[user.access_level]
@@ -45,16 +72,16 @@ class TestService:
             try:
                 chosen_item = int(input("Выберете пункт меню: "))
                 if user_access == TestService.STUDENT_ACCESS and chosen_item == 1:
-                    TestService.start_test(user)
+                    self.start_test(user)
                 elif user_access == TestService.STUDENT_ACCESS and chosen_item == 2:
                     pass
                 elif user_access == TestService.ADMIN_ACCESS and chosen_item == 1:
-                    show_average_info()
+                    self.show_average_info(students)
                 elif user_access == TestService.ADMIN_ACCESS and chosen_item == 2:
-                    show_users_info()
+                    self.show_users_info(students)
                 elif chosen_item == 10:
                     if user_access == TestService.STUDENT_ACCESS:
-                        save_data()
+                        self.repo.save_data(students)
                         print("данные сохранены")
                     print("Работы программы завершена.")
                     return
