@@ -22,10 +22,6 @@ class StudentRepo(ABC):
     def load_menu(self):
         pass
 
-    @abstractmethod
-    def show_users_info(self):
-        pass
-
 
 class StudentRepoXlsx(StudentRepo):
     DATA_FILE = "students_mark.xlsx"
@@ -90,6 +86,3 @@ class StudentRepoXlsx(StudentRepo):
 
     def load_menu(self):
         return self.get_config()["menu"]
-
-    def show_users_info(self):
-        pass
