@@ -8,6 +8,7 @@ class TestService:
 
     ADMIN_ACCESS = "ADMIN_ACCESS"
     STUDENT_ACCESS = "STUDENT_ACCESS"
+    PROGRAM_STATUS = "STOP"
 
     @staticmethod
     def start_test(student):
@@ -25,8 +26,7 @@ class TestService:
                 print(error)
                 print(" Ошибка. Введенный ответ не целое число")
         mark = right_answer * 2
-        student.marks.append(datetime.datetime.now(), mark)
-        # student.marks.append(mark)
+        student.marks.append((datetime.datetime.now(), mark))
 
         print(f"Правильных ответов: {right_answer}, оценка: {mark}")
 
@@ -39,24 +39,60 @@ class TestService:
         print("=" * 80)
         for login, data in students.items():
             int_marks = list(map(lambda el: el[1], data.marks))
-            print(f"{counter}. {login}: {sum(int_marks) / len(int_marks) if len(int_marks) !=0 else 'Нет оценок'}")
+            print(f"{counter}. {login}: {sum(int_marks) / len(int_marks) if len(int_marks) != 0 else 'Нет оценок'}")
             counter += 1
             for mark in data.marks:
                 marks_sum += mark[1]
                 marks_count += 1
         print("=" * 80)
         print(f"Средний бал по всем пользователям: {round(marks_sum / marks_count, 2)}")
+        print(f"Общее количество оценок по пользователям: {marks_count}")
         print("=" * 80)
 
     @staticmethod
-    def show_users_info(students):
-        user_name = input("Введите имя ученика: ").lower()
+    def show_users_info(students, student_name="NoName"):
+        if student_name == "NoName":
+            user_name = input("Введите имя ученика: ").lower()
+        else:
+            user_name = student_name
+
         if user_name in students.keys():
-            marks = students[user_name]
+            marks = students[user_name].marks
+            count = 1
+            print(f"\nОценки ученика: {user_name}")
             for mark in marks:
-                print(f"Отметка: {mark[1]} получена -> {mark[0]}")
+                print(f"{count}. Отметка: {mark[1]} получена -> {mark[0]}")
+                count += 1
+            print(f"Всего оценок: {count - 1}")
         else:
             print(f"Пользователя с именем {user_name} нет в списке")
+
+    def student_menu(self, user, students):
+        chosen_item = int(input("Выберете пункт меню: "))
+        if chosen_item == 1:
+            self.start_test(user)
+        elif chosen_item == 2:
+            self.show_users_info(students, user.name)
+        elif chosen_item == 10:
+            self.repo.save_data(students)
+            print("данные сохранены")
+            print("Работы программы завершена.")
+            return self.PROGRAM_STATUS
+        else:
+            print("Выбран некорректный пункт меню")
+
+    def admin_menu(self, students):
+        chosen_item = int(input("Выберете пункт меню: "))
+
+        if chosen_item == 1:
+            self.show_average_info(students)
+        elif chosen_item == 2:
+            self.show_users_info(students)
+        elif chosen_item == 10:
+            print("Работы программы завершена.")
+            return self.PROGRAM_STATUS
+        else:
+            print("Выбран некорректный пункт меню")
 
     def show_menu(self, students, menu, user):
         while True:
@@ -70,22 +106,15 @@ class TestService:
             print("=" * 80)
 
             try:
-                chosen_item = int(input("Выберете пункт меню: "))
-                if user_access == TestService.STUDENT_ACCESS and chosen_item == 1:
-                    self.start_test(user)
-                elif user_access == TestService.STUDENT_ACCESS and chosen_item == 2:
-                    pass
-                elif user_access == TestService.ADMIN_ACCESS and chosen_item == 1:
-                    self.show_average_info(students)
-                elif user_access == TestService.ADMIN_ACCESS and chosen_item == 2:
-                    self.show_users_info(students)
-                elif chosen_item == 10:
-                    if user_access == TestService.STUDENT_ACCESS:
-                        self.repo.save_data(students)
-                        print("данные сохранены")
-                    print("Работы программы завершена.")
-                    return
+                if user_access == self.STUDENT_ACCESS:
+                    status = self.student_menu(user, students)
+                elif user_access == self.ADMIN_ACCESS:
+                    status = self.admin_menu(students)
                 else:
-                    print("Выбран некорректный пункт меню")
+                    status = self.PROGRAM_STATUS
+
+                if status == self.PROGRAM_STATUS:
+                    return
+
             except Exception as error:
                 print(error)

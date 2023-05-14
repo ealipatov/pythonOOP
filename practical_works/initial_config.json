@@ -1,22 +1,18 @@
 {
   "users": {
     "admin": {
-      "login": "admin",
       "password": "12345",
       "access_level": "ADMIN_ACCESS"
     },
     "иван": {
-      "login": "ivan",
       "password": "12345",
       "access_level": "STUDENT_ACCESS"
     },
     "витя": {
-      "login": "petr",
       "password": "12345",
       "access_level": "STUDENT_ACCESS"
     },
     "мария": {
-      "login": "maria",
       "password": "12345",
       "access_level": "STUDENT_ACCESS"
     }
