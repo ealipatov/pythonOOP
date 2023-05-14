@@ -1,0 +1,32 @@
+{
+  "users": {
+    "admin": {
+      "password": "12345",
+      "access_level": "ADMIN_ACCESS"
+    },
+    "иван": {
+      "password": "12345",
+      "access_level": "STUDENT_ACCESS"
+    },
+    "витя": {
+      "password": "12345",
+      "access_level": "STUDENT_ACCESS"
+    },
+    "мария": {
+      "password": "12345",
+      "access_level": "STUDENT_ACCESS"
+    }
+  },
+  "menu": {
+    "ADMIN_ACCESS": {
+      "1": "Средний балл по всем пользователям",
+      "2": "Все отметки по пользователю",
+      "10": "Выход"
+    },
+    "STUDENT_ACCESS": {
+      "1": "Пройти тест",
+      "2": "Просмотр оценок",
+      "10": "Выход"
+    }
+  }
+}
