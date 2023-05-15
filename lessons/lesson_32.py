@@ -1,6 +1,9 @@
 def on_table_light():
-    1 / 0
-    print("Настольная лампа включена")
+    try:
+        1 / 0
+        print("Настольная лампа включена")
+    except Exception as error:
+        print(f"Ошибка: {error}")
 
 
 def on_lightning():
@@ -14,3 +17,13 @@ def run():
 
 
 run()
+
+
+class MyException(Exception):
+    pass
+
+
+try:
+    raise MyException("any text")
+except Exception as error:
+    print(f"Ошибка: {error}")
