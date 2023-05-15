@@ -22,5 +22,23 @@ except IndexError as e:     # Отлавливаем исключения IndexE
     print(f"Тип ошибки: {e}")
     print(f"В списке нет элемента под номером {num}")
 # Можно отлавливать несколько типов исключений
-except ArithmeticError as e:
+except (ArithmeticError, AttributeError) as e:
     print(f"Тип ошибки: {e}")
+# блок else вызовется если ошибок не было
+else:
+    print("Ошибок не было")
+finally:
+    print("Этот блок вызовется всегда")
+
+
+def f1(n1, n2):
+    try:
+        print('try')
+        return n1 / n2
+    except:
+        print('except')
+        return 0
+    finally:
+        print('finally')
+
+print(f1(1, 2))
